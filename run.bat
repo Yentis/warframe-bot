@@ -1,4 +1,4 @@
 d:
-cd D:\repositories\vast-coast-65362
+cd D:\repositories\warframe-bot
 node app.js
 cmd /K
