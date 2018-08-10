@@ -1,13 +1,13 @@
-var Discord = require('discord.io');
-var logger = require('winston');
-var auth = require('./auth.json');
-var fs = require('fs');
+let Discord = require('discord.io');
+let logger = require('winston');
+let auth = require('./auth.json');
+let fs = require('fs');
 // Configure logger settings
 logger.remove(logger.transports.Console);
 logger.add(new logger.transports.Console, { colorize: true });
 logger.level = 'debug';
 // Initialize Discord Bot
-var bot = new Discord.Client({
+let bot = new Discord.Client({
     token: auth.token,
     autorun: true
 });
@@ -60,6 +60,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                     message: 'Analyzing...'
                 }, function () {
                     let amount = 0;
+
                     let x = 0;
                     let loopArray = function (arr) {
                         checkGenesisMessage({d:arr[x]}, channelID, false, function (result) {
@@ -71,22 +72,22 @@ bot.on('message', function (user, userID, channelID, message, evt) {
 
                             if(x < arr.length) {
                                 loopArray(arr);
+                            } else {
+                                bot.sendMessage({
+                                    to: channelID,
+                                    message: 'Done, deleted ' + amount + ' messages.'
+                                });
                             }
                         });
                     };
 
                     loopArray(messages);
-
-                    bot.sendMessage({
-                        to: channelID,
-                        message: 'Done, deleted ' + amount + ' messages.'
-                    });
                 });
             }
         });
+    } else {
+        checkGenesisMessage(evt, channelID, true, function () {});
     }
-
-    checkGenesisMessage(evt, channelID, true, function () {});
 });
 
 function checkGenesisMessage(evt, channelID, ping, callback) {
@@ -127,6 +128,8 @@ function checkGenesisMessage(evt, channelID, ping, callback) {
                 callback(delet);
             }
         }
+    } else {
+        callback(null);
     }
 }
 
@@ -148,6 +151,8 @@ function shouldPing(ping, delet, item, callback){
         } else {
             callback(false);
         }
+    } else {
+        callback(false);
     }
 }
 
