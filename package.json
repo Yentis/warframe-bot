@@ -1,0 +1,17 @@
+{
+  "name": "warframe-bot",
+  "version": "1.0.0",
+  "description": "ping for message content, delete other messages",
+  "main": "app.js",
+  "author": "Yentis",
+  "dependencies": {
+    "discord.io": "https://github.com/woor/discord.io/tarball/gateway_v6",
+    "winston": "^3.0.0"
+  },
+  "scripts": {
+    "start": "node app.js"
+  },
+  "engines": {
+	"node": "8.6.0"
+  }
+}
